@@ -88,10 +88,65 @@ export default function TripDetailPage() {
         budget: trip.budget,
       });
 
-      const itineraryObject = JSON.parse(aiResponse.itinerary);
-      await updateDoc(tripRef, {
-        itinerary: itineraryObject.itinerary || [],
-      });
+  let cleanedItinerary = aiResponse.itinerary;
+
+cleanedItinerary = cleanedItinerary
+  .replace(/```json/g, "")
+  .replace(/```/g, "")
+  .trim();
+
+cleanedItinerary = cleanedItinerary.replace(
+  /,\s*([}\]])/g,
+  "$1"
+);
+
+console.log("Cleaned AI Response:", cleanedItinerary);
+
+let itineraryObject;
+
+try {
+  let cleanedItinerary = aiResponse.itinerary;
+
+  cleanedItinerary = cleanedItinerary
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+
+  const firstBrace = cleanedItinerary.indexOf("{");
+  const lastBrace = cleanedItinerary.lastIndexOf("}");
+
+  if (firstBrace !== -1 && lastBrace !== -1) {
+    cleanedItinerary = cleanedItinerary.slice(
+      firstBrace,
+      lastBrace + 1
+    );
+  }
+
+  cleanedItinerary = cleanedItinerary.replace(
+    /,\s*([}\]])/g,
+    "$1"
+  );
+
+  itineraryObject = JSON.parse(cleanedItinerary);
+
+} catch (parseError) {
+  console.error("JSON Parse Error:", parseError);
+
+  toast({
+    variant: "destructive",
+    title: "Invalid AI Response",
+    description: "AI returned malformed JSON.",
+  });
+
+  return;
+}
+await updateDoc(tripRef, {
+  itinerary: itineraryObject.itinerary || [],
+});
+
+await updateDoc(tripRef, {
+  itinerary: itineraryObject.itinerary || [],
+});
 
       toast({
         title: 'Itinerary Generated!',
