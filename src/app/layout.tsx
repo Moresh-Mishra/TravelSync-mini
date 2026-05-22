@@ -52,8 +52,6 @@ export default function RootLayout({
 
         {/* PT Sans */}
         <link
-<<<<<<< HEAD
-=======
           href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap"
           rel="stylesheet"
         />
@@ -66,7 +64,6 @@ export default function RootLayout({
 
         {/* Noto Serif + Plus Jakarta */}
         <link
->>>>>>> edf8cfb (Final TravelSync production update)
           href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
