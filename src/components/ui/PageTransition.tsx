@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -14,10 +15,29 @@ export default function PageTransition({
     <AnimatePresence mode="wait">
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.35, ease: "easeInOut" }}
+        initial={{
+          opacity: 0,
+          y: 20,
+          scale: 0.98,
+          filter: "blur(8px)",
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+        }}
+        exit={{
+          opacity: 0,
+          y: -12,
+          scale: 0.98,
+          filter: "blur(6px)",
+        }}
+        transition={{
+          duration: 0.45,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="will-change-transform"
       >
         {children}
       </motion.div>

@@ -3,14 +3,14 @@ import 'server-only';
 
 import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
-import { config } from 'dotenv';
-config();
 
-const googleAiPlugin = googleAI({
-  apiKey: process.env.GOOGLE_GENAI_API_KEY!,   // keep secret on server
-});
+const geminiApiKey = process.env.GEMINI_API_KEY;
+
+if (!geminiApiKey) {
+  throw new Error('Missing GEMINI_API_KEY environment variable.');
+}
 
 export const ai = genkit({
-  plugins: [googleAiPlugin],
-  model: 'googleai/gemini-1.5-flash',
+  plugins: [googleAI({ apiKey: geminiApiKey })],
+  model: googleAI.model('gemini-2.5-flash'),
 });
